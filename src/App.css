@@ -1,38 +1,28 @@
-.App {
-  text-align: center;
+.login-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.left-login-container {
+    width: 45%;
+    display: flex;
+    background-color: #2596be;
+    align-items: center;
+    height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.twitter-icon {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: 120px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.right-login-container {
+    background-color: black;
+    width: 55%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 }
