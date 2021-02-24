@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Form, FormGroup, Label, Input,Col, FormText } from 'reactstrap';
 import { useState } from 'react';
-import 'firebase/storage';
 
 
 const SignUp = ({auth, database , storage})=> {
@@ -11,6 +10,7 @@ const SignUp = ({auth, database , storage})=> {
     const [fullName , setFullName] = useState('')
     const [contact, setContact] = useState('');
     const [profile, setProfile] =  useState(null)
+    const[url , setUrl] =  useState("")
 
 
 
@@ -22,26 +22,61 @@ const SignUp = ({auth, database , storage})=> {
     }
 
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-          const upload =  storage.ref(`images/${profile.name}`).put(profile);
-         upload.on("state_changed", 
-           snapshot => {
-               console.log(snapshot)
-           },
+
+          const storageRef =  storage.ref(`images/${profile.name}`);
+          const uploadTask =  storageRef.put(profile);
+
+          uploadTask.on("state_changed", 
+           snapshot => {},
            error => {
-               console.log(error.code)
+               console.log(error.message)
            },
            () => {
-                storage.ref('images').child(profile.name).getDowloadURL()
-                .then(url => {
-                    console.log(`Profile Image can be downloaded from here  ${url}`);
+             storage.ref('images').child(profile.name).getDownloadURL()
+                .then(link => {
+                     setUrl(link);
+        
+
                 })
            }
          );
 
+
+       
+
+         if(url !== null){
+             console.log(url);
+             await addUsers();
+         }else{
+             console.log('url is empty ');
+         }
+
     } 
+
+  
+const addUsers = async() => {
+    auth.createUserWithEmailAndPassword(email, password)
+    .then((cred) => {
+        // Signed in 
+        database.ref('users/' + cred.user.uid).set({
+            email,
+            username:name,
+            fullName,
+            contact,
+            imageUrl:url
+        })
+
+        
+    }).then(() => {
+        console.log('Data saved to database');
+    })
+    .catch((error) => {
+        console.log(error.message);
+
+    });
+}
     
     return (
         <React.Fragment>
@@ -53,7 +88,7 @@ const SignUp = ({auth, database , storage})=> {
                 <Col md={8}>
                     <FormGroup  className="mb-5 mt-4 py-2" >
                         <Label for="exampleEmail" >Email</Label>
-                        <Input type="email" name="email" value= {email} onChange={(e) => setEmail(e.target.value)}   id="exampleEmail" placeholder="with a placeholder"/>
+                        <Input type="email" name="email" value= {email} onChange={(e) => setEmail(e.target.value)}   id="exampleEmail" placeholder="with a placeholder" />
                     </FormGroup>
                     </Col>  
                     
