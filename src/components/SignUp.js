@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, FormGroup, Label, Input,Col, FormText } from 'reactstrap';
 import { useState } from 'react';
-
+import { useHistory } from 'react-router-dom'
 
 const SignUp = ({auth, database , storage})=> {
     const [email,setEmail] = useState('') 
@@ -11,8 +11,7 @@ const SignUp = ({auth, database , storage})=> {
     const [contact, setContact] = useState('');
     const [profile, setProfile] =  useState(null)
     const[url , setUrl] =  useState("")
-
-
+    let history =  useHistory();
 
     //Setting file state 
     const handleFile =  (e) => {
@@ -24,7 +23,6 @@ const SignUp = ({auth, database , storage})=> {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-
           const storageRef =  storage.ref(`images/${profile.name}`);
           const uploadTask =  storageRef.put(profile);
 
@@ -36,48 +34,44 @@ const SignUp = ({auth, database , storage})=> {
            () => {
              storage.ref('images').child(profile.name).getDownloadURL()
                 .then(link => {
-                     setUrl(link);
-        
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then((cred) => {
+                            // Signed in 
+                            database.ref('users/' + cred.user.uid).set({
+                                email,
+                                username:name,
+                                fullName,
+                                contact,
+                                imageUrl:link
+                            })
+
+                            
+                        }).then(() => {
+                            console.log('Data saved to database');
+                            setUrl('');
+                            setEmail('');
+                            setContact('')
+                            setFullName('');
+                            setName('');
+                            setProfile('')
+                            history.push('/');
+                        })
+                        .catch((error) => {
+                            console.log(error.message);
+
+                        });
+                
 
                 })
            }
          );
 
 
-       
-
-         if(url !== null){
-             console.log(url);
-             await addUsers();
-         }else{
-             console.log('url is empty ');
-         }
 
     } 
 
   
-const addUsers = async() => {
-    auth.createUserWithEmailAndPassword(email, password)
-    .then((cred) => {
-        // Signed in 
-        database.ref('users/' + cred.user.uid).set({
-            email,
-            username:name,
-            fullName,
-            contact,
-            imageUrl:url
-        })
 
-        
-    }).then(() => {
-        console.log('Data saved to database');
-    })
-    .catch((error) => {
-        console.log(error.message);
-
-    });
-}
-    
     return (
         <React.Fragment>
            <div className="signUp-container">  
@@ -129,6 +123,8 @@ const addUsers = async() => {
                         </FormGroup>
                     <Button color="secondary" size="lg" active type="submit" >Sign Up</Button>{' '}
                     </Form>
+
+
 
 
                </div>

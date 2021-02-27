@@ -4,20 +4,33 @@ import { FaTwitter } from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-const LoginPage = props => {
+const LoginPage = ({ onAuth })=> {
       const [email,setEmail] = useState('') 
-      const [password, setPassword] = useState('')  
+      const [password, setPassword] = useState('') 
+      const[status,setState] = useState(); 
       
       const onSubmit = (e) => {
-          //TODO: Add validation on input fields use libray for validations 
+          //TODO: Add validation on  input fields use libray for validations 
         e.preventDefault();
-        console.log(email);
+           if(!email || !password ){
+               alert('Please fill all the fields');
+
+           }else{
+                   
+              const cath =  onAuth({email,password});
+              setState(cath);
+              setEmail('');
+              setPassword('');
+        
+
+           } 
       }
 
     return (
         <React.Fragment>
             <div className='login-container'>
                 <div className="left-login-container">
+                    {/* <h1 style={{color:'black'}}>{status? 'Logged In' : 'Logged in failed'}</h1> */}
                     <IconContext.Provider value={{color: 'white', size: '25em',className:'twitter-icon '}}>
                         <div>
                             <FaTwitter />
