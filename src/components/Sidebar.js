@@ -1,25 +1,28 @@
 import React from 'react'
-import { FaTwitter, FaHome } from 'react-icons/fa';
-import { IconContext } from "react-icons"; 
+import  {FaTwitter} from 'react-icons/fa';
 import SidebarOptions from './SidebarOptions'
-
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import ExploreOffOutlinedIcon from '@material-ui/icons/ExploreOffOutlined';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined'
+import {Button} from  'reactstrap'
 const Sidebar = props => {
     return (
         <div className="sidebar">
-            <FaTwitter />
-            <FaHome />
+            <FaTwitter className="sidebar___twitterIcon" />
+          
+           <SidebarOptions active Icon={HomeOutlinedIcon} text="home" />
            
+           <SidebarOptions Icon={PersonOutlineIcon}text="Profile" />
 
-           <SidebarOptions text="home" />
+           <SidebarOptions Icon={ExploreOffOutlinedIcon} text="Explore" />
            
-           <SidebarOptions text="Profile" />
-
-           <SidebarOptions text="Explore" />
+           <Button  outline size="lg" block className="sidebar__tweet " >Tweet</Button>
            
+            
         </div> 
     )
 }
 
 
 
-export default Sidebar
+export default Sidebar;

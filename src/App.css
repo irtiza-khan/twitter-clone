@@ -1,3 +1,17 @@
+body {
+    --twitter-color: #50b7f5;
+    --twitter-background: #e6ecf0;
+}
+
+.App {
+    display: flex;
+    height: 100vh;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+}
+
 .login-container {
     height: 100vh;
     width: 100%;
@@ -41,4 +55,91 @@
     margin: auto;
     border-radius: 10px;
     background-color: lightcyan;
+}
+
+.sidebarOption {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}
+
+.sidebarOption:hover {
+    background-color: #eBf5fe;
+    border-radius: 30px;
+    color: var(--twitter-color);
+    transition: color 100ms ease-out;
+}
+
+.sidebarOption>.MuiIcon-root {
+    padding: 20px;
+}
+
+.sidebarOption>h2 {
+    font-weight: 800;
+    font-size: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.sidebarOption--active {
+    color: var(--twitter-color);
+}
+
+.sidebar__tweet {
+    background-color: var(--twitter-color) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 900 !important;
+    text-transform: inherit !important;
+    border-radius: 30px !important;
+    height: 50px !important;
+    margin-top: 20px !important;
+}
+
+.sidebar {
+    border-right: 3px solid var(--twitter-background);
+    flex: 0.3;
+    min-width: 250px;
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.sidebar___twitterIcon {
+    color: var(--twitter-color);
+    font-size: 30px !important;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.feed {
+    flex: 0.4;
+    border-right: 1px solid var(--twitter-background);
+    /* min-width: fit-content; */
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.feed::-webkit-scrollbar {
+    display: none;
+}
+
+.feed_header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border: 1px solid var(--twitter-background);
+    background-color: white;
+    padding: 15px 20px
+}
+
+.widgets {
+    flex: 0.3;
+}
+
+.feed_header>h2 {
+    font-size: 20px;
+    font-weight: 800;
 }

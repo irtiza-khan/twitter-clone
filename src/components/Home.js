@@ -1,12 +1,22 @@
 import React from 'react'
 import Sidebar from './Sidebar'
+import Feed  from './Feed'
+import Widgets from './Widgets'
 const Home = props => {
     return (
         <>
-            <h1>Home Screen</h1>
+
 
             <Sidebar />
+
+            {/* Feed */}
+
+            <Feed />
+
+
+            {/* Widgets */}
             
+            <Widgets />
         </>
     )
 }

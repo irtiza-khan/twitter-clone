@@ -22,6 +22,7 @@ function App() {
   const onAuth = (users) => {
     auth.signInWithEmailAndPassword(users.email, users.password)
     .then((userCredential) => {
+      console.log('You are logged in ...')
       history.push('/home');
     })
     .catch((error) => {
