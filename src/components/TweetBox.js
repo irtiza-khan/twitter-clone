@@ -1,15 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Avatar } from '@material-ui/core';
 
 const TweetBox = props => {
+    //TODO: Need to pass user image url as a prop 
     return (
+
         <div className="tweetBox">
-            <h2>Hows the day</h2>
-            {/* Have to make a form here with submit button and get firebase data */}
+            <Form>
+                <FormGroup>
+                    <div className="tweetBox__input">
+                    <Avatar src="" />
+                    <Input placeholder="What's happening?"  type="text"/>
+                    </div> 
+                </FormGroup>
+
+                <FormGroup>
+                    <Input className="tweetBox__imageInput" placeholder="Optional: Enter image URL" type="text" />
+                </FormGroup>
+
+                <Button className="tweetBox__btn">Tweet</Button>
+            </Form>
+
+           
+
             
         </div>
     )
 }
 
 
-export default TweetBox
+export default TweetBox;
