@@ -2,7 +2,23 @@ import React from 'react'
 import Sidebar from './Sidebar'
 import Feed  from './Feed'
 import Widgets from './Widgets'
-const Home = props => {
+import {useEffect ,useState} from 'react'
+const Home = ({auth,database}) => {
+    const[userId, setUser] = useState();
+
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+              var uid = user.uid;
+              setUser(uid);
+
+            } else {
+               console.log('User Not logged in');
+            }
+          });
+    },[])
+
+    
     return (
         <>
 
@@ -11,7 +27,7 @@ const Home = props => {
 
             {/* Feed */}
 
-            <Feed />
+            <Feed  userId={userId}  database={database} />
 
 
             {/* Widgets */}

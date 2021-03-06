@@ -267,3 +267,20 @@ widgets__searchIcon {
     font-size: 18px;
     font-weight: 800;
 }
+
+.tweetBox__likeBtn {
+    border: none !important;
+    background-color: none !important;
+    color: none !important;
+    width: 50px !important;
+    display: flex;
+    align-items: flex-end !important;
+}
+
+.tweetBox__likeIcon {
+    cursor: pointer;
+    margin-left: 10px;
+    display: flex;
+    margin-top: 10px;
+    align-items: flex-start;
+}
