@@ -3,7 +3,7 @@ import Sidebar from './Sidebar'
 import Feed  from './Feed'
 import Widgets from './Widgets'
 import {useEffect ,useState} from 'react'
-const Home = ({auth,database}) => {
+const Home = ({auth,database,storage}) => {
     const[userId, setUser] = useState();
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Home = ({auth,database}) => {
 
             {/* Feed */}
 
-            <Feed  userId={userId}  database={database} />
+            <Feed  userId={userId}  database={database}  storage={storage}/>
 
 
             {/* Widgets */}

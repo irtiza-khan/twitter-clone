@@ -40,7 +40,7 @@ function App() {
          <Switch>
             <Route exact path='/'  component={() =>   <LoginPage  onAuth={onAuth}  />}/>
             <Route  path='/signUp'  component={() => <SignUp auth={auth} database={database} storage={storage}   />} />
-            <Route  path="/home" component={() => <Home auth={auth} database={database}   />} />
+            <Route  path="/home" component={() => <Home auth={auth} database={database} storage={storage}  />} />
             <Route component={Error}/>
            </Switch>
 

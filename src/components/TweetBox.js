@@ -1,38 +1,68 @@
 import React from 'react'
-import { Button, Form, FormGroup, Input } from 'reactstrap'
+import { Button, Form, FormGroup, Input ,Label } from 'reactstrap'
 import { Avatar } from '@material-ui/core';
-import {useEffect ,useState} from 'react'
+import {useState} from 'react'
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-const TweetBox = ({ imageUrl, id , database}) => {
+import ImageIcon from '@material-ui/icons/Image';
+import firebase from 'firebase/app'; 
+import 'firebase/database';
+
+const TweetBox = ({ imageUrl, id , database , storage}) => {
      //*States
      const[tweet,setTweet] =  useState('');
-     const[image,setImage] = useState('');
-     const[like ,setLike] = useState(false);
-     const date =  new Date().toUTCString();
-      
-    //TODO: Need to change like logic need to set like as a count 
-    const handleLike = (e) => {
-        e.target.style.color = "red";
-            setLike(true);
+     const[like ,setLike] = useState(0);
+     const [profile, setProfile] =  useState(null)
+ 
+       const handleFile =  (e) => {
+        if(e.target.files[0]){
+            setProfile(e.target.files[0]);
+        }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if(!tweet || !image){
-            alert('field empty cannont tweet');
-        }else{
-            var postListRef = database.ref('tweet');
-            var newPostRef = postListRef.push();
-            newPostRef.set({
-                 tweet,
-                 image,
-                 id,
-                 like,
-                 date
+    const handleLike = (e) => {
+        e.target.style.color = "red";
+            setLike( like + 1 );
+    }
 
-            });
-            
-        }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();  
+        if(id){
+        const storageRef =  storage.ref(`images/${profile.name}`);
+        const uploadTask =  storageRef.put(profile);
+
+          uploadTask.on("state_changed", 
+           snapshot => {},
+           error => {
+               console.log(error.message)
+           },
+           () => {
+             storage.ref('images').child(profile.name).getDownloadURL()
+                .then(link => {
+                        var postListRef = database.ref( 'tweets');
+                        var newPostRef = postListRef.push();
+                        newPostRef.set({
+                            tweet,
+                            tweet_image:link,
+                            id,
+                            like,
+                            timestamp: firebase.database.ServerValue.TIMESTAMP 
+
+                        });
+                        console.log('Data saved into database');
+                        setTweet('');
+                        setLike(false);
+                        setProfile(null);
+                                
+                        })
+                
+
+                })
+
+            }else{
+                ///user logged out
+            }
+        
     }
 
     return (
@@ -47,9 +77,18 @@ const TweetBox = ({ imageUrl, id , database}) => {
                 </FormGroup>
 
                 <FormGroup>
-                    <Input className="tweetBox__imageInput" value={image} onChange={(e) => setImage(e.target.value)} placeholder="Optional: Enter image URL" type="text" />
+                    <Label htmlFor="upload-photo">
+                    <input  style={{ display: 'none' }} 
+                    id="upload-photo"  
+                    name="upload-photo"  
+                    type="file"
+                    onChange={handleFile}
+                    /> 
+                        <ImageIcon fontSize="large" className="tweetBox__imageIcon"/>
+                    </Label>
+
                 </FormGroup>
-               <FavoriteBorderIcon fontSize="medium" className="tweetBox__likeIcon"  onClick={handleLike} />
+               <FavoriteBorderIcon fontSize="large" className="tweetBox__likeIcon"  onClick={handleLike} />
 
                 <Button className="tweetBox__btn" type='submit' >Tweet</Button>
             </Form>

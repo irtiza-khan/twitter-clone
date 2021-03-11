@@ -279,8 +279,16 @@ widgets__searchIcon {
 
 .tweetBox__likeIcon {
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 75px;
     display: flex;
-    margin-top: 10px;
+    margin-top: -1.7em;
     align-items: flex-start;
+}
+
+.tweetBox__imageIcon {
+    cursor: pointer;
+    display: flex;
+    background-color: none;
+    color: var(--twitter-color);
+    margin-left: 20px;
 }
